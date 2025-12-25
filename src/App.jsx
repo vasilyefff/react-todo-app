@@ -37,13 +37,16 @@ function App() {
 	}
 
 	function editTodo(id, newText) {
+		if (!newText.trim()) {
+			return;
+		}
 		setTodos(prev =>
 			prev.map(todo =>
-				todo.id === id ? { ...todo, text: newText } : todo
+				todo.id === id ? { ...todo, text: newText.trim() } : todo
 			)
 		);
 	}
-
+	
 	function clearCompleted() {
 		setTodos(prev => prev.filter(item => !item.completed));
 	}
@@ -70,4 +73,3 @@ function App() {
 
 export default App;
 
-//Данный проект написан через QWEN Code
