@@ -1,46 +1,53 @@
 import { useState } from "react";
 
+function TodoItem({ todo, onDelete, onToggle, onEdit }) {
+	const [isEditing, setIsEditing] = useState(false);
+	const [editText, setEditText] = useState(todo.text);
 
-function TodoItem({ elem, onDelete, onToggle, onEdit }) {
+	function handleSave() {
+		if (editText.trim() === "") return;
 
-	const [editText, setEditText] = useState(elem.text);
-	const [isEditing, setIsEditing] = useState(false)
-
-	const handleSave = () => {
-		if (editText.trim() === "") {
-			alert("Задача не может быть пустой!")
-			return
-		}
-		onEdit(elem.id, editText)
-		setIsEditing(false)
+		onEdit(todo.id, editText);
+		setIsEditing(false);
 	}
 
-	const handleCancel = () => {
-		setEditText(elem.text)
-		setIsEditing(false)
-	}
-
-	if (isEditing) {
-		return (
-			<div>
-				<input type="text" value={editText} onChange={(e) => { setEditText(e.target.value) }} />
-				<button onClick={handleSave}>✅</button>
-				<button onClick={handleCancel}>❌</button>
-			</div>
-		)
+	function handleCancel() {
+		setEditText(todo.text);
+		setIsEditing(false);
 	}
 
 	return (
-		<div>
-			<input
-				type="checkbox"
-				checked={elem.completed}
-				onChange={() => onToggle(elem.id)}
-			/>
-			<span>{elem.text}</span>
-			<button onClick={() => setIsEditing(true)}>📝</button>
-			<button onClick={() => onDelete(elem.id)}>🗑️</button>
-		</div>
+		<li className={`todo-item ${todo.completed ? 'completed' : ''}`} key={todo.id}>
+			{isEditing ? (
+				<div className="edit-form">
+					<input
+						type="text"
+						value={editText}
+						onChange={(e) => setEditText(e.target.value)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') handleSave();
+							if (e.key === 'Escape') handleCancel();
+						}}
+						autoFocus
+					/>
+					<button onClick={handleSave}>Сохранить</button>
+					<button onClick={handleCancel}>Отмена</button>
+				</div>
+			) : (
+				<>
+					<input
+						type="checkbox"
+						checked={todo.completed}
+						onChange={() => onToggle(todo.id)}
+					/>
+					<span className="todo-text">{todo.text}</span>
+					<div className="todo-actions">
+						<button onClick={() => setIsEditing(true)}>Редактировать</button>
+						<button onClick={() => onDelete(todo.id)}>🗑️</button>
+					</div>
+				</>
+			)}
+		</li>
 	);
 }
 

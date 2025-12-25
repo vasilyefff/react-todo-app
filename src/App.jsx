@@ -7,9 +7,14 @@ import TodoStats from "./components/TodoStats";
 
 function App() {
 	const [todos, setTodos] = useState([]);
-	const [filter, setFilter] = useState("all");
+	const [filter, setFilter] = useState('all');
 
 	function addTodo(text) {
+		// Проверка на пустой текст перед добавлением
+		if (!text.trim()) {
+			return;
+		}
+
 		const newTodo = {
 			id: Date.now(),
 			text,
@@ -31,31 +36,34 @@ function App() {
 		);
 	}
 
+	function editTodo(id, newText) {
+		if (!newText.trim()) {
+			return;
+		}
+		setTodos(prev =>
+			prev.map(todo =>
+				todo.id === id ? { ...todo, text: newText.trim() } : todo
+			)
+		);
+	}
+
 	function clearCompleted() {
 		setTodos(prev => prev.filter(item => !item.completed));
 	}
 
-	const editTodo = (id, newText) => {
-		setTodos(todos.map(elem => {
-			if (elem && elem.id === id) {
-				return { ...elem, text: newText };
-			}
-			// elem.id === id ? { ...elem, text: newText } : elem
-		}))
-	}
-
-	const filteredTodos = todos.filter(elem => {
-		if (filter === "all") return true
-		if (filter === "active") return !elem.completed
-		if (filter === "completed") return elem.completed
-	})
+	const filteredTodos = todos.filter(todo => {
+		if (filter === 'all') return true;
+		if (filter === 'active') return !todo.completed;
+		if (filter === 'completed') return todo.completed;
+		return true;
+	});
 
 	return (
 		<div className="app">
 			<h1>Todo App</h1>
 
 			<TodoInput addTodo={addTodo} />
-			<TodoFilters />
+			<TodoFilters onFilterChange={setFilter} currentFilter={filter} />
 			<TodoList todos={filteredTodos} onDelete={deleteItem} onToggle={toggleItem} onEdit={editTodo} />
 			<TodoStats todos={todos} onClear={clearCompleted} />
 		</div>
@@ -65,4 +73,3 @@ function App() {
 
 export default App;
 
-//Я ДОБАВИЛ ЭТОТ КОММЕНТАРИЙ ПРОСТО ЧТОБЫ ОТСЛЕДИТЬ РАБОТУ C GIT НА РАБОЧЕМ КОМПЕ

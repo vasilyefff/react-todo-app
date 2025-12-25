@@ -3,14 +3,17 @@ function TodoStats({ todos, onClear }) {
 	const active = todos.filter(item => !item.completed).length
 	const completed = todos.filter(item => item.completed).length
 
+	const hasCompleted = completed > 0;
 
 
 	return (
-		<div>
-			<span>Все:{total}</span>
-			<span>Активные:{active}</span>
-			<span>Завершённые:{completed}</span>
-			<button onClick={onClear}>Очистить выполненные</button>
+		<div className="todo-stats">
+			<span>Все: {total}</span>
+			<span>Активные: {active}</span>
+			<span>Завершённые: {completed}</span>
+			{hasCompleted && (
+				<button onClick={onClear}>Очистить выполненные</button>
+			)}
 		</div>
 	);
 }
