@@ -1,18 +1,18 @@
-function TodoList({ todos, onDelete, onToggle }) {
+import TodoItem from './TodoItem';
+
+function TodoList({ todos, onDelete, onToggle, onEdit }) {
 	return (
 		<div>
 			<h3>Список задач</h3>
 			<ul>
 				{todos.map(todo => (
-					<li key={todo.id}>
-						<input
-							type="checkbox"
-							checked={todo.completed}
-							onChange={() => onToggle(todo.id)}
-						/>
-						{todo.text}
-						<button onClick={() => onDelete(todo.id)}>🗑️</button>
-					</li>
+					<TodoItem
+						key={todo.id}
+						todo={todo}
+						onDelete={onDelete}
+						onToggle={onToggle}
+						onEdit={onEdit}
+					/>
 				))}
 			</ul>
 		</div>

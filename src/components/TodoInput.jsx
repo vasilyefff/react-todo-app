@@ -10,12 +10,19 @@ function TodoInput({ addTodo }) {
 		setText("");
 	}
 
+	function handleKeyPress(e) {
+		if (e.key === 'Enter') {
+			handleAdd();
+		}
+	}
+
 	return (
-		<div>
+		<div className="todo-input-container">
 			<input
 				type="text"
 				value={text}
 				onChange={(e) => setText(e.target.value)}
+				onKeyDown={handleKeyPress}
 				placeholder="Введите задачу"
 			/>
 			<button onClick={handleAdd}>Добавить</button>
