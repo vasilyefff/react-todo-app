@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function TodoInput({ addTodo }) {
-	const [text, setText] = useState("");
+	const [text, setText] = useState("")
 
 	function handleAdd() {
 		if (text.trim() === "") return;

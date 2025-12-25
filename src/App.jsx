@@ -7,6 +7,7 @@ import TodoStats from "./components/TodoStats";
 
 function App() {
 	const [todos, setTodos] = useState([]);
+	const [filter, setFilter] = useState("all");
 
 	function addTodo(text) {
 		const newTodo = {
@@ -30,12 +31,24 @@ function App() {
 		);
 	}
 
-
-
 	function clearCompleted() {
 		setTodos(prev => prev.filter(item => !item.completed));
 	}
 
+	const editTodo = (id, newText) => {
+		setTodos(todos.map(elem => {
+			if (elem && elem.id === id) {
+				return { ...elem, text: newText };
+			}
+			// elem.id === id ? { ...elem, text: newText } : elem
+		}))
+	}
+
+	const filteredTodos = todos.filter(elem => {
+		if (filter === "all") return true
+		if (filter === "active") return !elem.completed
+		if (filter === "completed") return elem.completed
+	})
 
 	return (
 		<div className="app">
@@ -43,7 +56,7 @@ function App() {
 
 			<TodoInput addTodo={addTodo} />
 			<TodoFilters />
-			<TodoList todos={todos} onDelete={deleteItem} onToggle={toggleItem} />
+			<TodoList todos={filteredTodos} onDelete={deleteItem} onToggle={toggleItem} onEdit={editTodo} />
 			<TodoStats todos={todos} onClear={clearCompleted} />
 		</div>
 	);

@@ -1,8 +1,6 @@
 function TodoFilters() {
 	return (
-		<div>
-			TodoFilters
-		</div>
+		
 	);
 }
 
