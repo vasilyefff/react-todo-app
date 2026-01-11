@@ -35,7 +35,7 @@
 
 ```bash
 git clone https://github.com/vasilyefff/react-todo-app.git
-cd todo-app
+cd react-todo-app
 ```
 
 2. Установите зависимости:
