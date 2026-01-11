@@ -34,7 +34,7 @@
 1. Клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/vasilyefff/todo-app.git
+git clone https://github.com/vasilyefff/react-todo-app.git
 cd todo-app
 ```
 
